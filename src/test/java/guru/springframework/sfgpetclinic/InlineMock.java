@@ -18,4 +18,6 @@ public class InlineMock {
         assertEquals(0,mapMock.size());
 
     }
+
+
 }
