@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.verification.AtLeast;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +30,25 @@ class SpecialitySDJpaServiceTest {
     @Test
     void deleteById() {
         specialitySDJpaService.deleteById(1l);
+        verify(specialtyRepository).deleteById(1l);
+    }
+    @Test
+    void deleteByIdAtLeastOnce() {
+        specialitySDJpaService.deleteById(1l);
+        specialitySDJpaService.deleteById(1l);
+        verify(specialtyRepository, atLeastOnce()).deleteById(1l);
+    }
+
+    @Test
+    void deleteByIdAtMostOnce() {
+        specialitySDJpaService.deleteById(1l);
+        verify(specialtyRepository, atMostOnce()).deleteById(1l);
+    }
+
+    @Test
+    void deleteByIdNeverCalled() {
         specialitySDJpaService.deleteById(1l);
         verify(specialtyRepository).deleteById(1l);
-
+        verify(specialtyRepository, never()).deleteById(5l);
     }
 }
