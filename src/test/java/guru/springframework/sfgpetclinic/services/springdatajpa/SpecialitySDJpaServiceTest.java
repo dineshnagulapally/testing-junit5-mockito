@@ -1,5 +1,6 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
+import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.repositories.SpecialtyRepository;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,18 @@ class SpecialitySDJpaServiceTest {
     //InjectMocks will inject the repository mock to service class and create an instance for it
 
     @Test
+    void deleteByObject(){
+        Speciality speciality = new Speciality();
+        specialitySDJpaService.delete(speciality);
+        verify(specialtyRepository).delete(any(Speciality.class));
+    }
+    @Test
     void findByIdTest(){
         Speciality speciality = new Speciality();
         when(specialtyRepository.findById(1L)).thenReturn(Optional.of(speciality));
         Speciality found = specialitySDJpaService.findById(1L);
         assertThat(found).isNotNull();
-        verify(specialtyRepository).findById(1L);
+        verify(specialtyRepository).findById(anyLong());
     }
     @Test
     void delete() {
