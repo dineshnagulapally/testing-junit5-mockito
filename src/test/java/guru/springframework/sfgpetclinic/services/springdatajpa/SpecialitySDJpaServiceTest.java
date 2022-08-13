@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.internal.verification.AtLeast;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -21,6 +23,14 @@ class SpecialitySDJpaServiceTest {
     @InjectMocks
     SpecialitySDJpaService specialitySDJpaService;
     //InjectMocks will inject the repository mock to service class and create an instance for it
+
+    @Test
+    void findByIdTest(){
+        Speciality speciality = new Speciality();
+        when(specialtyRepository.findById(1L)).thenReturn(Optional.of(speciality));
+        Speciality found = specialitySDJpaService.findById(1L);
+        verify(specialtyRepository).findById(1L);
+    }
     @Test
     void delete() {
         specialitySDJpaService.delete(new Speciality());
